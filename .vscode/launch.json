@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "c:/Users/bruno/OneDrive/Documentos/EstruturaDeDados/EstruturaDeDados/PA1/src",
-      "program": "c:/Users/bruno/OneDrive/Documentos/EstruturaDeDados/EstruturaDeDados/PA1/src/build/Debug/outDebug",
+      "cwd": "c:/Users/bruno/OneDrive/Documentos/EstruturaDeDados/EstruturaDeDados/TP1/CountingSort/src",
+      "program": "c:/Users/bruno/OneDrive/Documentos/EstruturaDeDados/EstruturaDeDados/TP1/CountingSort/src/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

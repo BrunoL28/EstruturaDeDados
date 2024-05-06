@@ -80,14 +80,14 @@ static bool isSorted ( const type_t * array, size_t size ) {
 
 static void test ( size_t size, SortingType type, bool print ) {
     double tstart = 0.0, tend = 0.0;
-    type_t * array = NULL;
+    type_t * array = nullptr;
     const double MICROSECS = (( CLOCKS_PER_SEC / 1000000.0 ));
 
     srand( 0 );
 
     array = new type_t[ size ];
 
-    assert( array != NULL );
+    assert( array != nullptr );
     initializeArray( array, size, type );
 
 
