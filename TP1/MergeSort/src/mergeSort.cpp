@@ -1,8 +1,6 @@
 #ifndef MERGESORT_CPP
 #define MERGESORT_CPP
 
-typedef int type_t;
-
 #include <cassert>
 #include <iostream>
 #include <cstddef>
@@ -10,6 +8,8 @@ typedef int type_t;
 #include <ctime>
 #include <time.h>
 #include <cstring>
+
+typedef int type_t;
 
 #include "../include/mergeSort.hpp"
 
@@ -134,7 +134,7 @@ void test ( size_t size, SortingType type, bool print ) {
     merge_Sort( array, size );
     tend = clock();
 
-    std::cout << "Merge Sort: " << ( ( tend - tstart ) / MICROSECS ) << " microssegundos" << std::endl;
+    std::cout << "Merge Sort: " << ( ( tend - tstart ) / MICROSECS ) << " us" << std::endl;
 
     if ( print ) {
         std::cout << "Array ordenado: ";
