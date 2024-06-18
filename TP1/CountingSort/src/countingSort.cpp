@@ -1,9 +1,6 @@
 #ifndef COUNTINGSORT_CPP
 #define COUNTINGSORT_CPP
 
-typedef int type_t;
-typedef type_t key_t;
-
 #include <cassert>
 #include <iostream>
 #include <cstddef>
@@ -11,6 +8,9 @@ typedef type_t key_t;
 #include <ctime>
 #include <time.h>
 #include <cstring>
+
+typedef int type_t;
+typedef type_t key_t;
 
 #include "../include/countingSort.hpp"
 
@@ -132,7 +132,7 @@ void test( size_t size, SortingType type, bool print ) {
     countingSort( array, size );
     tend = clock();
 
-    std::cout << "Counting Sort: " << ( tend - tstart ) / MICROSECS << " microssegundos" << std::endl;
+    std::cout << "Counting Sort: " << ( tend - tstart ) / MICROSECS << " us" << std::endl;
 
     if ( print ) {
         std::cout << "Array depois da ordenacao: ";
