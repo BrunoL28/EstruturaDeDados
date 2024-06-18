@@ -1,8 +1,6 @@
 #ifndef BUBBLESORT_CPP
 #define BUBBLESORT_CPP
 
-typedef int type_t;
-
 #include <cassert>
 #include <iostream>
 #include <cstddef>
@@ -11,15 +9,17 @@ typedef int type_t;
 #include <time.h>
 #include <cstring>
 
+typedef int type_t;
+
 #include "../include/bubbleSort.hpp"
 
-static void swap ( type_t * x, type_t * y ) {
+void swap ( type_t * x, type_t * y ) {
     type_t temp = *x;
     *x = *y;
     *y = temp;
 }
 
-static void bubbleSorting ( type_t * array, size_t size ) {
+void bubbleSort ( type_t * array, size_t size ) {
     bool swapped;
     do {
         swapped = false;
@@ -32,7 +32,7 @@ static void bubbleSorting ( type_t * array, size_t size ) {
     } while ( swapped );
 }
 
-static void printArray ( const type_t * array, size_t size ) {
+void printArray ( const type_t * array, size_t size ) {
     std::cout << "[ ";
     for ( size_t i = 0; i < size; i++ ) {
         std::cout << array[ i ] << ( ( i + 1 ) == size ? " ]" : " " );
@@ -40,7 +40,7 @@ static void printArray ( const type_t * array, size_t size ) {
     std::cout << std::endl;
 }
 
-static void initializeArray ( type_t * array, size_t size, SortingType type ) {
+void initializeArray ( type_t * array, size_t size, SortingType type ) {
     switch ( type ) {
         case ORDENADO:
             for ( size_t i = 0; i < size; i++ ) {
@@ -69,7 +69,7 @@ static void initializeArray ( type_t * array, size_t size, SortingType type ) {
     }
 }
 
-static bool isSorted ( const type_t * array, size_t size ) {
+bool isSorted ( const type_t * array, size_t size ) {
     for ( size_t i = 1; i < size; i++ ) {
         if ( array[ i ] < array[ i - 1 ] ) {
             return false;
@@ -78,7 +78,7 @@ static bool isSorted ( const type_t * array, size_t size ) {
     return true;
 }
 
-static void test ( size_t size, SortingType type, bool print ) {
+void test ( size_t size, SortingType type, bool print ) {
     double tstart = 0.0, tend = 0.0;
     type_t * array = nullptr;
     const double MICROSECS = (( CLOCKS_PER_SEC / 1000000.0 ));
@@ -86,7 +86,6 @@ static void test ( size_t size, SortingType type, bool print ) {
     srand( 0 );
 
     array = new type_t[ size ];
-
     assert( array != nullptr );
     initializeArray( array, size, type );
 
@@ -97,10 +96,10 @@ static void test ( size_t size, SortingType type, bool print ) {
     }
 
     tstart = clock();
-    bubbleSorting( array, size );
+    bubbleSort( array, size );
     tend = clock();
 
-    std::cout << "Bubble Sort: " << ( tend - tstart ) / MICROSECS << " microssegundos" << std::endl;
+    std::cout << "Bubble Sort: " << ( tend - tstart ) / MICROSECS << " us" << std::endl;
 
     if ( print ) {
         std::cout << "Array depois da ordenacao: ";
