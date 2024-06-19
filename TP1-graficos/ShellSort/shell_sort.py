@@ -6,23 +6,36 @@ import os
 
 type_t = int
 
-def insertion_sort(array):
-    comparisons = 0
-    swaps = 0
-    for i in range(1, len(array)):
-        key = array[i]
-        j = i - 1
-        while j >= 0 and key < array[j]:
-            comparisons += 1
-            array[j + 1] = array[j]
-            swaps += 1
-            j -= 1
-        array[j + 1] = key
-    return comparisons, swaps
+def swap(x, y):
+    return y, x
+
+def shell_sort(array):
+    size = len(array)
+    total_comparisons = 0
+    total_swaps = 0
+
+    gap = 1
+    while gap < size:
+        gap = 3 * gap + 1
+    while gap > 0:
+        for i in range(gap, size):
+            key = array[i]
+            j = i
+            while j >= gap and array[j - gap] > key:
+                total_comparisons += 1
+                array[j] = array[j - gap]
+                j -= gap
+                total_swaps += 1
+            if j >= gap:
+                total_comparisons += 1
+            array[j] = key
+        gap //= 3
+
+    return total_comparisons, total_swaps
 
 def print_array(array):
     print("[", " ".join(map(str, array)), "]")
-    
+
 def initialize_array(size, sorting_type, data_type):
     array = [0] * size
     if data_type == int:
@@ -69,19 +82,12 @@ def test(size, sorting_type, data_type, print_array):
     if print_array:
         print("Array inicial:")
         print_array(array)
-
-    if data_type == int:
-        start_time = time.time()
-        comparisons, swaps = insertion_sort(array)
-        end_time = time.time()
-    elif data_type in {float, str}:
-        start_time = time.time()
-        array.sort()
-        comparisons = len(array) * np.log2(len(array))  # Aproximação
-        swaps = 0
-        end_time = time.time()
     
-    print(f"Sorting {data_type.__name__}: {(end_time - start_time) * 1e6:.2f} us")
+    start_time = time.time()
+    comparisons, swaps = shell_sort(array)
+    end_time = time.time()
+    
+    print(f"Shell Sort ({data_type.__name__}): {(end_time - start_time) * 1e6:.2f} us")
     
     if print_array:
         print("Array final:")
@@ -119,11 +125,11 @@ def run_tests():
                 plt.plot(sizes, results[str(data_type)][sorting_type][metric], label=sorting_type)
             plt.xlabel('Tamanho do Vetor')
             plt.ylabel(metric.capitalize())
-            plt.title(f'Insertion Sort => {metric.capitalize()} por Entrada ({data_type.__name__})')
+            plt.title(f'Shell Sort => {metric.capitalize()} por Entrada ({data_type.__name__})')
             plt.legend()
             plt.grid(True)
 
-            plt.savefig(os.path.join(output_dir, f'insertion_sort_{metric}_{data_type.__name__}.png'))
+            plt.savefig(os.path.join(output_dir, f'shell_sort_{metric}_{data_type.__name__}.png'))
             plt.close()
 
 if __name__ == "__main__":

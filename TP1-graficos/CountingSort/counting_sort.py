@@ -13,26 +13,22 @@ def counting_sort(array):
     output = [0] * size
     comparisons = 0
 
-    # Store the count of each element
     for i in range(size):
         count[array[i]] += 1
-        comparisons += 1  # Comparison when counting elements
+        comparisons += 1
 
-    # Store the cumulative count
     for i in range(1, len(count)):
         count[i] += count[i - 1]
-        comparisons += 1  # Comparison when building cumulative count
+        comparisons += 1
 
-    # Place the elements in sorted order
     for i in range(size - 1, -1, -1):
         output[count[array[i]] - 1] = array[i]
         count[array[i]] -= 1
 
-    # Copy the sorted elements back to the original array
     for i in range(size):
         array[i] = output[i]
 
-    return comparisons, 0  # Counting sort doesn't use swaps
+    return comparisons, 0
 
 def print_array(array):
     print("[", " ".join(map(str, array)), "]")
@@ -115,7 +111,6 @@ def run_tests():
                 results[str(data_type)][sorting_type]['comparacoes'].append(comparisons)
                 results[str(data_type)][sorting_type]['trocas'].append(swaps)
 
-    # Criar a pasta para armazenar os gráficos
     output_dir = "graficos"
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
@@ -131,7 +126,6 @@ def run_tests():
             plt.legend()
             plt.grid(True)
 
-            # Salvar o gráfico na pasta
             plt.savefig(os.path.join(output_dir, f'counting_sort_{metric}_{data_type.__name__}.png'))
             plt.close()
 

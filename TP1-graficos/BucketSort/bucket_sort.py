@@ -6,6 +6,9 @@ import os
 
 type_t = int
 
+def swap(x, y):
+    return y, x
+
 def insertion_sort(array):
     comparisons = 0
     swaps = 0
@@ -15,14 +18,43 @@ def insertion_sort(array):
         while j >= 0 and key < array[j]:
             comparisons += 1
             array[j + 1] = array[j]
-            swaps += 1
             j -= 1
+            swaps += 1
+        if j >= 0:
+            comparisons += 1
         array[j + 1] = key
     return comparisons, swaps
 
+def bucket_sort(array, bucket_size):
+    if len(array) == 0:
+        return 0, 0
+
+    min_value = min(array)
+    max_value = max(array)
+    bucket_count = (max_value - min_value) // bucket_size + 1
+    buckets = [[] for _ in range(bucket_count)]
+    
+    for num in array:
+        buckets[(num - min_value) // bucket_size].append(num)
+    
+    total_comparisons = 0
+    total_swaps = 0
+    sorted_array = []
+    
+    for bucket in buckets:
+        comparisons, swaps = insertion_sort(bucket)
+        total_comparisons += comparisons
+        total_swaps += swaps
+        sorted_array.extend(bucket)
+    
+    for i in range(len(array)):
+        array[i] = sorted_array[i]
+    
+    return total_comparisons, total_swaps
+
 def print_array(array):
     print("[", " ".join(map(str, array)), "]")
-    
+
 def initialize_array(size, sorting_type, data_type):
     array = [0] * size
     if data_type == int:
@@ -63,25 +95,18 @@ def is_sorted(array):
             return False
     return True
 
-def test(size, sorting_type, data_type, print_array):
+def test(size, sorting_type, bucket_size, data_type, print_array):
     array = initialize_array(size, sorting_type, data_type)
     
     if print_array:
         print("Array inicial:")
         print_array(array)
-
-    if data_type == int:
-        start_time = time.time()
-        comparisons, swaps = insertion_sort(array)
-        end_time = time.time()
-    elif data_type in {float, str}:
-        start_time = time.time()
-        array.sort()
-        comparisons = len(array) * np.log2(len(array))  # Aproximação
-        swaps = 0
-        end_time = time.time()
     
-    print(f"Sorting {data_type.__name__}: {(end_time - start_time) * 1e6:.2f} us")
+    start_time = time.time()
+    comparisons, swaps = bucket_sort(array, bucket_size)
+    end_time = time.time()
+    
+    print(f"Bucket Sort ({data_type.__name__}): {(end_time - start_time) * 1e6:.2f} us")
     
     if print_array:
         print("Array final:")
@@ -103,7 +128,7 @@ def run_tests():
         for sorting_type in types:
             results[str(data_type)][sorting_type] = {'tempos': [], 'comparacoes': [], 'trocas': []}
             for size in sizes:
-                time_spent, comparisons, swaps = test(size, sorting_type, data_type, False)
+                time_spent, comparisons, swaps = test(size, sorting_type, 5, data_type, False)
                 results[str(data_type)][sorting_type]['tempos'].append(time_spent)
                 results[str(data_type)][sorting_type]['comparacoes'].append(comparisons)
                 results[str(data_type)][sorting_type]['trocas'].append(swaps)
@@ -119,11 +144,11 @@ def run_tests():
                 plt.plot(sizes, results[str(data_type)][sorting_type][metric], label=sorting_type)
             plt.xlabel('Tamanho do Vetor')
             plt.ylabel(metric.capitalize())
-            plt.title(f'Insertion Sort => {metric.capitalize()} por Entrada ({data_type.__name__})')
+            plt.title(f'Bucket Sort => {metric.capitalize()} por Entrada ({data_type.__name__})')
             plt.legend()
             plt.grid(True)
 
-            plt.savefig(os.path.join(output_dir, f'insertion_sort_{metric}_{data_type.__name__}.png'))
+            plt.savefig(os.path.join(output_dir, f'bucket_sort_{metric}_{data_type.__name__}.png'))
             plt.close()
 
 if __name__ == "__main__":

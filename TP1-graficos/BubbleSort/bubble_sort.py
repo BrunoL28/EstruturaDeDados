@@ -104,7 +104,6 @@ def run_tests():
                 results[str(data_type)][sorting_type]['comparacoes'].append(comparisons)
                 results[str(data_type)][sorting_type]['trocas'].append(swaps)
 
-    # Criar a pasta para armazenar os gráficos
     output_dir = "graficos"
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
@@ -120,7 +119,6 @@ def run_tests():
             plt.legend()
             plt.grid(True)
 
-            # Salvar o gráfico na pasta
             plt.savefig(os.path.join(output_dir, f'bubble_sort_{metric}_{data_type.__name__}.png'))
             plt.close()
 
